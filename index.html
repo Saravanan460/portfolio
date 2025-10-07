@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saravanan K | AI & Data Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #111827; /* gray-900 */
+        }
+        .accent-blue { color: #2563eb; }
+        .bg-accent-blue { background-color: #2563eb; }
+        .border-accent-blue { border-color: #2563eb; }
+        
+        /* Navigation Active State */
+        .nav-link.active {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        /* Project Workflow Tracker */
+        .tracker {
+            list-style: none;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tracker::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 12px;
+            bottom: 12px;
+            width: 2px;
+            background-color: #e5e7eb; /* gray-200 */
+        }
+        .tracker-step {
+            position: relative;
+            padding-left: 40px;
+            padding-bottom: 2.5rem; /* pb-10 */
+            cursor: pointer;
+        }
+        .tracker-step:last-child {
+            padding-bottom: 0;
+        }
+        .tracker-dot {
+            position: absolute;
+            left: -8px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 9999px;
+            background-color: #d1d5db; /* gray-300 */
+            transition: all 0.3s ease;
+        }
+        .tracker-step.active .tracker-dot {
+            background-color: #2563eb;
+            transform: scale(1.25);
+        }
+        .tracker-title {
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .tracker-step.active .tracker-title {
+            color: #2563eb;
+        }
+        .tracker-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, margin-top 0.5s ease-out;
+            margin-top: 0;
+        }
+        .tracker-step.active .tracker-details {
+            max-height: 500px; /* Adjust as needed */
+            margin-top: 0.75rem; /* mt-3 */
+        }
+
+        /* Fade-in Animation on Scroll */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" onclick="showPage('home')" class="text-2xl font-bold tracking-tight">Saravanan K.</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" onclick="showPage('home')" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 active" data-page="home">Home</a>
+                        <a href="#" onclick="showPage('about')" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600" data-page="about">About</a>
+                        <a href="#" onclick="showPage('projects')" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600" data-page="projects">Projects</a>
+                        <a href="#" onclick="showPage('internship')" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600" data-page="internship">Internship</a>
+                    </div>
+                </div>
+                 <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+             <!-- Mobile menu, show/hide based on menu state. -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#" onclick="showPage('home')" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 active" data-page="home">Home</a>
+                    <a href="#" onclick="showPage('about')" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600" data-page="about">About</a>
+                    <a href="#" onclick="showPage('projects')" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600" data-page="projects">Projects</a>
+                    <a href="#" onclick="showPage('internship')" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600" data-page="internship">Internship</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        
+        <!-- Page Content: Home -->
+        <section id="home" class="page-content text-center min-h-[70vh] flex flex-col justify-center items-center">
+             <div class="fade-in-section">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4">Hi, I’m Saravanan 👋</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">AI & Data Engineer | Machine Learning Enthusiast | Full-Stack Developer</p>
+                <p class="mt-6 max-w-2xl mx-auto text-gray-500">I build intelligent systems and data-driven applications that solve real-world problems, from predictive analytics to full-stack mobile solutions.</p>
+                <button onclick="showPage('projects')" class="mt-8 px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-transform transform hover:scale-105">
+                    Explore My Work
+                </button>
+            </div>
+        </section>
+
+        <!-- Page Content: About -->
+        <section id="about" class="page-content" style="display: none;">
+            <div class="max-w-4xl mx-auto fade-in-section">
+                <h2 class="text-4xl font-bold text-center mb-12">About Me</h2>
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm text-center">
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        I am an AI and Data Science enthusiast with a strong foundation in machine learning, full-stack development, and data analytics. My passion lies in transforming complex data into actionable insights and building intelligent applications that are both efficient and user-friendly. I thrive in collaborative environments and am driven by a goal to leverage technology to create impactful solutions.
+                    </p>
+                </div>
+
+                <div class="mt-16">
+                    <h3 class="text-3xl font-bold text-center mb-8">My Skills</h3>
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="font-semibold text-xl mb-4">Programming</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">Python</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-xl mb-4">AI/ML</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">Scikit-learn</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">TensorFlow</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">Pandas</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">NumPy</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">XGBoost</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">Computer Vision</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">NLP</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-medium">RAG</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-xl mb-4">Web/App Development</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-green-100 text-green-800 px-4 py-1 rounded-full text-sm font-medium">React Native</span>
+                                <span class="bg-green-100 text-green-800 px-4 py-1 rounded-full text-sm font-medium">Flutter</span>
+                                <span class="bg-green-100 text-green-800 px-4 py-1 rounded-full text-sm font-medium">FastAPI</span>
+                                <span class="bg-green-100 text-green-800 px-4 py-1 rounded-full text-sm font-medium">HTML/CSS</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-xl mb-4">Databases</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full text-sm font-medium">SQLite</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full text-sm font-medium">Firebase</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full text-sm font-medium">ChromaDB</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-xl mb-4">Tools & Platforms</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium">Git</span>
+                                <span class="bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium">GitHub</span>
+                                <span class="bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium">Visual Studio Code</span>
+                                <span class="bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium">Kaggle</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-xl mb-4">Soft Skills</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-purple-100 text-purple-800 px-4 py-1 rounded-full text-sm font-medium">Leadership</span>
+                                <span class="bg-purple-100 text-purple-800 px-4 py-1 rounded-full text-sm font-medium">Teamwork</span>
+                                <span class="bg-purple-100 text-purple-800 px-4 py-1 rounded-full text-sm font-medium">Problem-Solving</span>
+                                <span class="bg-purple-100 text-purple-800 px-4 py-1 rounded-full text-sm font-medium">Project Management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Content: Projects -->
+        <section id="projects" class="page-content" style="display: none;">
+            <div class="text-center fade-in-section">
+                 <h2 class="text-4xl font-bold mb-4">Projects</h2>
+                 <p class="text-lg text-gray-600">A selection of my work in AI, data science, and app development.</p>
+            </div>
+            <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+                <!-- Project 1 -->
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col fade-in-section">
+                    <h3 class="text-xl font-bold">CRISP Data Analysis</h3>
+                    <p class="text-gray-600 mt-2 flex-grow">End-to-end implementation of the CRISP-DM methodology for data analysis and model evaluation.</p>
+                    <button onclick="showPage('project-crisp')" class="mt-4 text-blue-600 font-semibold hover:underline self-start">View Details &rarr;</button>
+                </div>
+                 <!-- Project 2 -->
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col fade-in-section" style="transition-delay: 100ms;">
+                    <h3 class="text-xl font-bold">Crop Recommendation & Disease Detection App</h3>
+                    <p class="text-gray-600 mt-2 flex-grow">AI-powered app for smart farming that recommends crops and detects diseases from leaf images.</p>
+                    <button onclick="showPage('project-crop')" class="mt-4 text-blue-600 font-semibold hover:underline self-start">View Details &rarr;</button>
+                </div>
+                 <!-- Project 3 -->
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col fade-in-section" style="transition-delay: 200ms;">
+                    <h3 class="text-xl font-bold">AI Assistant</h3>
+                    <p class="text-gray-600 mt-2 flex-grow">An offline, GPU-optimized voice-operated AI assistant for local command execution.</p>
+                    <button onclick="showPage('project-assistant')" class="mt-4 text-blue-600 font-semibold hover:underline self-start">View Details &rarr;</button>
+                </div>
+                <!-- Project 4 -->
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col fade-in-section" style="transition-delay: 300ms;">
+                    <h3 class="text-xl font-bold">Payir Sei App (Team Project)</h3>
+                    <p class="text-gray-600 mt-2 flex-grow">A collaborative community farming platform to connect farmers and manage resources.</p>
+                    <button onclick="showPage('project-payir')" class="mt-4 text-blue-600 font-semibold hover:underline self-start">View Details &rarr;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Detail Pages -->
+        <!-- CRISP Project -->
+        <section id="project-crisp" class="page-content" style="display:none;">
+            <div class="max-w-4xl mx-auto fade-in-section">
+                <button onclick="showPage('projects')" class="mb-8 text-blue-600 font-semibold hover:underline">&larr; Back to Projects</button>
+                <h2 class="text-4xl font-bold mb-2">CRISP Data Analysis</h2>
+                <a href="https://github.com/Saravanan460/CRISP-analysis" target="_blank" class="text-gray-500 hover:text-blue-600 transition">View on GitHub</a>
+                
+                <div class="mt-8 prose lg:prose-lg max-w-none">
+                    <p>This project is a comprehensive, end-to-end implementation of the Cross-Industry Standard Process for Data Mining (CRISP-DM) methodology. It focuses on analyzing power consumption data from an office building to predict energy usage and identify patterns, demonstrating a structured approach to data science projects.</p>
+                </div>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6">Project Workflow</h3>
+                    <div class="bg-gray-50 p-8 rounded-lg">
+                        <ul class="tracker">
+                            <li class="tracker-step active" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">1. Problem Understanding</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The initial phase focused on defining the business objective: predicting and optimizing electricity consumption (especially AC units) to reduce costs. The data science goal was to forecast AC power consumption for the next hour based on historical data.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">2. Data Collection & Cleaning</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The dataset contained per-minute power consumption and sensor readings for four zones. A major challenge was significant missing sensor data from January to March, which was handled by filtering out this period. Minor gaps were filled using forward/backward fill methods.</p>
+                                </div>
+                            </li>
+                             <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">3. Feature Engineering</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">To help the model understand time-based patterns, new features were created from the timestamp, including hour, day of the week, month, and a boolean for weekends. These temporal features are crucial for predicting cyclical energy usage.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">4. Model Training</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">An XGBoost Regressor model was chosen for its performance. The model was trained on the engineered features to predict the Zone 1 AC power consumption for the subsequent hour. The data was scaled before training to ensure accuracy.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">5. Evaluation & Reporting</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The model's performance was evaluated using RMSE, MAE, and R² Score metrics, achieving an R² of 0.886, indicating a strong predictive capability. Visualizations were created to compare actual vs. predicted values, confirming the model's effectiveness.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                     <h3 class="text-2xl font-bold mb-4">Tech Stack & Skills</h3>
+                     <div class="flex flex-wrap gap-3">
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Python</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Pandas</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">NumPy</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Scikit-learn</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">XGBoost</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Data Analysis</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Time Series Forecasting</span>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Crop Project -->
+        <section id="project-crop" class="page-content" style="display:none;">
+             <div class="max-w-4xl mx-auto fade-in-section">
+                <button onclick="showPage('projects')" class="mb-8 text-blue-600 font-semibold hover:underline">&larr; Back to Projects</button>
+                <h2 class="text-4xl font-bold mb-2">Crop Recommendation & Disease Detection App</h2>
+                <a href="https://github.com/Saravanan460/crop-recomendation-and-disease-detection" target="_blank" class="text-gray-500 hover:text-blue-600 transition">View on GitHub</a>
+                
+                <div class="mt-8 prose lg:prose-lg max-w-none">
+                    <p>An AI-powered mobile application designed for smart farming. It assists farmers by recommending suitable crops based on soil and environmental data, and by detecting plant diseases from leaf images in real-time. The app supports both English and Tamil to serve local communities.</p>
+                </div>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6">Project Workflow</h3>
+                    <div class="bg-gray-50 p-8 rounded-lg">
+                        <ul class="tracker">
+                            <li class="tracker-step active" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">1. Login/Sign-up</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">A secure authentication system allows farmers to create accounts and log in. The interface is bilingual, supporting both Tamil and English to ensure accessibility for local farmers.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">2. Crop Recommendation</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">Farmers input soil data (N, P, K values), pH, and environmental factors like temperature and rainfall. A trained Random Forest model processes this data to recommend the most suitable crop with 98% accuracy.</p>
+                                </div>
+                            </li>
+                             <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">3. Disease Detection</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">Using the phone's camera, farmers can capture an image of a plant leaf. An EfficientNet B0 model analyzes the image to identify one of 19 plant diseases, providing instant diagnosis with over 90% validation accuracy.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">4. Crop Monitoring & Guidance</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">After a recommendation or diagnosis, the app integrates with Google's Generative AI (Gemini) to provide detailed guidance on crop duration, water/fertilizer needs, and pesticide recommendations.</p>
+                                </div>
+                            </li>
+                             <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">5. PDF Report Generation</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The app allows farmers to generate and download timestamped PDF reports for both crop recommendations and disease analysis. This helps in maintaining records for better farm management.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                     <h3 class="text-2xl font-bold mb-4">Tech Stack & Skills</h3>
+                     <div class="flex flex-wrap gap-3">
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">FastAPI</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">React Native</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Flutter</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">TensorFlow</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">SQLite</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Computer Vision</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Mobile App Development</span>
+                     </div>
+                </div>
+            </div>
+        </section>
+        
+         <!-- AI Assistant Project -->
+        <section id="project-assistant" class="page-content" style="display:none;">
+             <div class="max-w-4xl mx-auto fade-in-section">
+                <button onclick="showPage('projects')" class="mb-8 text-blue-600 font-semibold hover:underline">&larr; Back to Projects</button>
+                <h2 class="text-4xl font-bold mb-2">AI Assistant</h2>
+                <a href="https://github.com/Saravanan460/AI-Assistant-" target="_blank" class="text-gray-500 hover:text-blue-600 transition">View on GitHub</a>
+                
+                <div class="mt-8 prose lg:prose-lg max-w-none">
+                    <p>A custom, voice-interactive AI companion that runs entirely offline on a local machine. It functions as a digital entity with a distinct personality, voice, and the ability to remember past conversations using a Retrieval-Augmented Generation (RAG) system for long-term memory.</p>
+                </div>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6">Project Workflow</h3>
+                    <div class="bg-gray-50 p-8 rounded-lg">
+                        <ul class="tracker">
+                            <li class="tracker-step active" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">1. Voice Input Capture</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The system uses the `speech_recognition` library to actively listen for user input through the device's microphone, creating a hands-free interaction experience.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">2. Speech-to-Text Conversion</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The captured audio is transcribed into text locally using the `faster-whisper` library, which provides high-accuracy, offline transcription without relying on cloud services.</p>
+                                </div>
+                            </li>
+                             <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">3. Command Processing (Intent Detection)</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The transcribed text is processed by a local Large Language Model (Llama 3.1). The AI core, configured with a custom personality, analyzes the text to understand the user's intent and consults its ChromaDB vector memory for relevant context from past conversations (RAG).</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">4. Task Execution</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">Based on the detected intent, the assistant formulates a response or prepares to execute a local command. The conversation is logged in a TinyDB database for short-term memory and context.</p>
+                                </div>
+                            </li>
+                             <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">5. Voice Response Output</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The AI's text response is converted back into natural-sounding speech using the offline Coqui TTS engine. The audio is then played back to the user, completing the conversational loop.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                     <h3 class="text-2xl font-bold mb-4">Tech Stack & Skills</h3>
+                     <div class="flex flex-wrap gap-3">
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Python</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">SpeechRecognition</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Transformers</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">ChromaDB</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">NLP</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">RAG</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Voice AI</span>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payir Sei Project -->
+        <section id="project-payir" class="page-content" style="display:none;">
+             <div class="max-w-4xl mx-auto fade-in-section">
+                <button onclick="showPage('projects')" class="mb-8 text-blue-600 font-semibold hover:underline">&larr; Back to Projects</button>
+                <h2 class="text-4xl font-bold mb-2">Payir Sei App (TEAM 6 Project)</h2>
+                <a href="https://github.com/Santhiyav27/TEAM-6" target="_blank" class="text-gray-500 hover:text-blue-600 transition">View on GitHub</a>
+                
+                <div class="mt-8 prose lg:prose-lg max-w-none">
+                    <p>A collaborative community farming management platform developed as a team project. The application connects farmers, allows them to list and share resources, track yields and expenses, and generate analytics to improve transparency and efficiency in community farming.</p>
+                </div>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6">Project Workflow</h3>
+                    <div class="bg-gray-50 p-8 rounded-lg">
+                        <ul class="tracker">
+                            <li class="tracker-step active" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">1. User Registration</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">Farmers in a community can register and create profiles, joining a shared digital space. This forms the foundation for resource sharing and collaborative tracking.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">2. Resource Listing</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">Users can list available resources such as tools, vehicles, or surplus supplies. Other members of the community can view these listings to facilitate borrowing and sharing, optimizing resource utilization.</p>
+                                </div>
+                            </li>
+                             <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">3. Yield & Expense Tracking</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The app provides an interface for farmers to log their crop yields and associated expenses. This data is stored securely in Firebase, creating a transparent ledger for the community.</p>
+                                </div>
+                            </li>
+                            <li class="tracker-step" onclick="toggleTracker(this)">
+                                <div class="tracker-dot"></div>
+                                <h4 class="tracker-title">4. Report & Analytics Generation</h4>
+                                <div class="tracker-details">
+                                    <p class="text-gray-600">The platform aggregates the tracked data to generate reports and analytics. This provides insights into the community's overall productivity and financial health, helping with planning and decision-making.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                     <h3 class="text-2xl font-bold mb-4">Tech Stack & Skills</h3>
+                     <div class="flex flex-wrap gap-3">
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">React Native</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Firebase</span>
+                        <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-medium">Node.js</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Teamwork</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">App Design</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">System Building</span>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Page Content: Internship -->
+        <section id="internship" class="page-content" style="display: none;">
+            <div class="max-w-4xl mx-auto fade-in-section">
+                <h2 class="text-4xl font-bold text-center mb-12">Internship Experience</h2>
+                <div class="bg-gray-50 p-8 rounded-xl shadow-md mb-12">
+                    <div class="flex flex-col sm:flex-row justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">AI & Data Science Intern</h3>
+                            <p class="text-lg font-semibold text-blue-600">Nextix AI</p>
+                            <p class="text-md text-gray-500">May 2025 - June 2025 | Coimbatore, India</p>
+                        </div>
+                        <div class="mt-4 sm:mt-0 text-sm sm:text-right">
+                           <p class="font-semibold">Priya J</p>
+                           <p class="text-gray-600">Senior Digital Officer & Data Analyst</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 border-t border-gray-200 pt-6">
+                        <h4 class="text-xl font-semibold mb-3">Key Project & Responsibilities:</h4>
+                        <p class="text-gray-700 leading-relaxed">
+                            I performed data analytics on power consumption data for an office building in Taiwan. The primary goal was to predict AC consumption and indoor temperature for each floor and zone. I worked with two years of historical data (2018-2019) to build predictive models.
+                        </p>
+                        <div class="mt-6">
+                            <h5 class="font-semibold text-gray-800 mb-3">What I Learned & Achieved:</h5>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><b>Data Engineering:</b> Web scraped outside temperature data and interpolated it from 30-minute to 1-minute intervals. Performed extensive data cleaning, handling missing values and outliers.</li>
+                                <li><b>Feature Engineering:</b> Created lag features, rolling means, and used sine/cosine transformations for cyclical hourly patterns to improve model accuracy.</li>
+                                <li><b>Predictive Modeling:</b> Built and trained five separate XGBoost models, one for each working day (Monday-Friday), to capture unique weekday energy consumption patterns.</li>
+                                <li><b>Tools & Techniques:</b> Gained hands-on experience with advanced time-series analysis, web scraping with Python, and building robust machine learning pipelines.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-3xl font-bold text-center mb-8">Internship Certificate</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+                         <img src="intern.png" alt="Internship Certificate from Nextix AI" class="rounded-md w-full" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-2xl font-bold">Get in Touch</h3>
+            <p class="mt-2 text-gray-600">Feel free to reach out for collaborations or just a friendly chat!</p>
+            <div class="mt-6 flex justify-center items-center space-x-6">
+                <a href="mailto:saravana07ktm2005@gmail.com" class="text-gray-500 hover:text-blue-600">
+                    <span class="sr-only">Email</span>
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/saravanan-k-680abb292" target="_blank" class="text-gray-500 hover:text-blue-600">
+                    <span class="sr-only">LinkedIn</span>
+                     <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-7 5.07h-2.17v6.66h2.17V8.07zm-1.09-2.31c-.69 0-1.25-.56-1.25-1.24s.56-1.24 1.25-1.24c.68 0 1.24.56 1.24 1.24s-.56 1.24-1.24 1.24zM16.94 8h-2.05c-.82 0-1.54.3-1.54 1.48v.83h3.29l-.42 2.05h-2.87V14.73h2.17a3.07 3.07 0 0 0 3.06-3.07v-2.1c0-1.42-1.15-2.56-2.64-2.56z"/></svg>
+                </a>
+                <a href="https://github.com/Saravanan460" target="_blank" class="text-gray-500 hover:text-blue-600">
+                    <span class="sr-only">GitHub</span>
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.65.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"/></svg>
+                </a>
+            </div>
+            <p class="mt-8 text-sm text-gray-500">&copy; 2025 Saravanan K. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="to-top-button" class="hidden fixed bottom-5 right-5 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </button>
+
+
+    <script>
+        const pages = document.querySelectorAll('.page-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Function to show a page and hide others
+        function showPage(pageId) {
+            // Hide all pages
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+            // Show the target page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            }
+             // Update active nav link
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId || (pageId.startsWith('project-') && link.dataset.page === 'projects')) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Scroll to the top of the content area
+            window.scrollTo({
+                top: document.getElementById('header').offsetHeight,
+                behavior: 'smooth'
+            });
+
+            // Close mobile menu after navigation
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Toggle mobile menu
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Initialize to show the home page first
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+        });
+
+        // Project Tracker Interactivity
+        function toggleTracker(element) {
+            // Close all other steps in the same tracker
+            const tracker = element.closest('.tracker');
+            tracker.querySelectorAll('.tracker-step').forEach(step => {
+                if (step !== element) {
+                    step.classList.remove('active');
+                }
+            });
+            // Toggle the clicked step
+            element.classList.toggle('active');
+        }
+
+        // Back to Top Button Logic
+        const toTopButton = document.getElementById('to-top-button');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                toTopButton.classList.remove('hidden');
+            } else {
+                toTopButton.classList.add('hidden');
+            }
+        });
+        toTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Fade-in animation on scroll logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+
+    </script>
+</body>
+</html>
